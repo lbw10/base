@@ -72,7 +72,7 @@ const network = getVal('network')
 /* network */
 const defaultNetworkPath = getVal('defaultNetworkPath') || '/'
 /* 节点名前缀 */
-const prefix = getVal('prefix') || '端口 '
+const prefix = getVal('port') || ' '
 /* 节点名后缀 */
 const suffix = getVal('suffix') || ''
 /* 附加 Host 前缀 */
@@ -205,7 +205,7 @@ async function proxyHander(p) {
     p = await resolveServer(p)
   }
   /* 设置节点名 */
-  p = setName(p, port + prefix, suffix)
+  p = setName(p,  prefix, suffix)
   return p
 }
 
