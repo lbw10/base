@@ -477,7 +477,7 @@ function setPort(p, port) {
   return p
 }
 function setName(p, prefix = '', suffix = '') {
-  p.name = `${port}${p.name}${suffix}`
+  p.name = `${p.port}${p.name}${suffix}`
   return p
 }
 
