@@ -72,7 +72,7 @@ const network = getVal('network')
 /* network */
 const defaultNetworkPath = getVal('defaultNetworkPath') || '/'
 /* 节点名前缀 */
-const prefix = `${p.port}`
+const prefix = getVal('prefix') || ''
 /* 节点名后缀 */
 const suffix = getVal('suffix') || ''
 /* 附加 Host 前缀 */
@@ -473,11 +473,11 @@ function setNetwork(p, network) {
 }
 function setPort(p, port) {
   p.port = port
-  setName(p, '', `[${port}]`)
+  
   return p
 }
 function setName(p, prefix = '', suffix = '') {
-  p.name = `${prefix}${p.name}${suffix}`
+  p.name = `${p.port}${p.name}${suffix}`
   return p
 }
 
