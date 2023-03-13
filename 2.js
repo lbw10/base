@@ -71,8 +71,7 @@ const pathOpt = getVal('path')
 const network = getVal('network')
 /* network */
 const defaultNetworkPath = getVal('defaultNetworkPath') || '/'
-/* 节点名前缀 */
-const prefix = getVal('prefix') || '${port} 端口'
+
 /* 节点名后缀 */
 const suffix = getVal('suffix') || ' '
 /* 附加 Host 前缀 */
@@ -89,6 +88,8 @@ const networkPrefix = String(getVal('networkPrefix')) === 'true'
 const networkSuffix = String(getVal('networkSuffix')) === 'true'
 /* 端口 */
 const port = getVal('port')
+/* 节点名前缀 */
+const prefix = getVal('prefix') || '${port} 端口'
 /* 排序 */
 const autoSort = String(getVal('sort')) === 'true'
 /* 域名 转 IP */
