@@ -72,7 +72,7 @@ const network = getVal('network')
 /* network */
 const defaultNetworkPath = getVal('defaultNetworkPath') || '/'
 /* 节点名前缀 */
-
+const prefix = getVal('prefix') || ''
 /* 节点名后缀 */
 const suffix = getVal('suffix') || ''
 /* 附加 Host 前缀 */
@@ -89,7 +89,6 @@ const networkPrefix = String(getVal('networkPrefix')) === 'true'
 const networkSuffix = String(getVal('networkSuffix')) === 'true'
 /* 端口 */
 const port = getVal('port')
-const prefix = 'true'
 /* 排序 */
 const autoSort = String(getVal('sort')) === 'true'
 /* 域名 转 IP */
@@ -165,7 +164,7 @@ async function main(proxies) {
     for await (let p of proxies) {
       p = await proxyHander(p)
       result.push(p)
-    }
+    }端口
   }
 
   return result.sort((a, b) => b._sort - a._sort)
@@ -206,7 +205,7 @@ async function proxyHander(p) {
     p = await resolveServer(p)
   }
   /* 设置节点名 */
-  p = setName(p,  prefix, suffix)
+  p = setName(p, port , suffix)
   return p
 }
 
@@ -478,7 +477,7 @@ function setPort(p, port) {
   return p
 }
 function setName(p, prefix = '', suffix = '') {
-  p.name = `${prefix}${p.name}${suffix}`
+  p.name = `${port}${p.name}${suffix}`
   return p
 }
 
