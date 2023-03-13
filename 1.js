@@ -72,7 +72,7 @@ const network = getVal('network')
 /* network */
 const defaultNetworkPath = getVal('defaultNetworkPath') || '/'
 /* 节点名前缀 */
-const prefix = getVal('prefix') || port+'端口'
+const prefix = getVal('prefix') || '${port} 端口'
 /* 节点名后缀 */
 const suffix = getVal('suffix') || ' '
 /* 附加 Host 前缀 */
