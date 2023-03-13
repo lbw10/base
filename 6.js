@@ -89,7 +89,7 @@ const networkPrefix = String(getVal('networkPrefix')) === 'true'
 const networkSuffix = String(getVal('networkSuffix')) === 'true'
 /* 端口 */
 const port = getVal('port')
-const prefix = getVal('port')
+const prefix = 'true'
 /* 排序 */
 const autoSort = String(getVal('sort')) === 'true'
 /* 域名 转 IP */
