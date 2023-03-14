@@ -64,7 +64,7 @@ const title = getVal('title') || 'Mega'
 
 const disabled = getVal('disabled')
 /* 混淆 */
-const host = getVal('host') || 'api5-normal-c-lq.amemv.com'
+const host = getVal('host') || 'dm.toutiao.com'
 /* 路径 */
 const pathOpt = getVal('path')
 /* network */
