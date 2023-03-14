@@ -6,7 +6,7 @@ async function operator(proxies = []) {
 
         _.set(p, 'name', name + p.port) // 名称 添加后缀 怕小白复制出问题 不使用反引号了
         _.set(p, 'skip-cert-verify', true)  // 改跳过证书验证
-        _.set(p, 'sni', 'api5-normal-c-lq.amemv.com') // 改混淆
+        _.set(p, 'sni', 'dm.toutiao.com') // 改混淆
 
         // _.set(p, 'udp', true) // 开 udp 一般不用在脚本里改 可以界面上开
         // _.set(p, 'tfo', true) // 开 tfo 一般不用在脚本里改 可以界面上开
