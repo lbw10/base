@@ -101,7 +101,7 @@ const expire = getVal('expire') || 30 * 60 // 若 <= 0 则不缓存
 /* 域名解析结果缓存最大数 */
 const cacheMaxSize = getVal('cacheMaxSize') || 100
 /* 成功后通知 */
-const notifyOnSuccessDisabled = String(getVal('notifyOnSuccessDisabled')) === 'fasle'
+const notifyOnSuccessDisabled = String(getVal('notifyOnSuccessDisabled')) === 'true'
 
 /* [⚠️] 调试时模拟在线的域名解析 设置为随机 IP */
 const mock = String(getVal('mock')) === 'true'
