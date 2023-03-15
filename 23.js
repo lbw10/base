@@ -145,7 +145,7 @@ async function operator(proxies = []) {
     console.log(`总耗时: ${Math.round((Date.now() - startedAt) / 1000)}s`)
     if (!notifyOnSuccessDisabled) {
       
-      )
+      
     }
     return result
   } catch (e) {
