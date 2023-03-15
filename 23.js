@@ -144,10 +144,7 @@ async function operator(proxies = []) {
     console.log(`解析失败数: ${unresolvedCount}`)
     console.log(`总耗时: ${Math.round((Date.now() - startedAt) / 1000)}s`)
     if (!notifyOnSuccessDisabled) {
-      $.msg(
-        title,
-        `✅ 总耗时 ${Math.round((Date.now() - startedAt) / 1000)}s`,
-        `使用缓存数 ${cacheHitTimes}\n解析成功数 ${resolvedCount}\n解析失败数 ${unresolvedCount}`
+      
       )
     }
     return result
