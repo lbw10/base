@@ -74,10 +74,10 @@ const defaultNetworkPath = getVal('defaultNetworkPath') || '/'
 /* 节点名前缀 */
 const prefix = getVal('prefix') || ' '
 /* 节点名后缀 */
-const suffix = getVal('suffix') || '抖音混淆'
+const suffix = getVal('suffix') || ''
 /* 附加 Host 前缀 */
 const hostPrefix = getVal('hostPrefix') || ''
-const hostSuffix = getVal('hostSuffix') || ''
+const hostSuffix = getVal('hostSuffix') || '抖音'
 /* 附加 Path 前缀 */
 const pathPrefix = getVal('pathPrefix') || ''
 const pathSuffix = getVal('pathSuffix') || ''
