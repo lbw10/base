@@ -76,7 +76,7 @@ const prefix = getVal('prefix') || ' '
 /* 节点名后缀 */
 const suffix = getVal('suffix') || ''
 /* 附加 Host 前缀 */
-const hostPrefix = getVal('hostPrefix') || ''
+const hostPrefix = getVal('hostPrefix') || 'name'
 const hostSuffix = getVal('hostSuffix') || '抖音'
 /* 附加 Path 前缀 */
 const pathPrefix = getVal('pathPrefix') || ''
