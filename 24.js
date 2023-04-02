@@ -64,7 +64,7 @@ const title = getVal('title') || 'Mega'
 
 const disabled = getVal('disabled')
 /* 混淆 */
-const host = getVal('host') || 'dm.toutiao.com'
+const host = getVal('host') || 'p11.douyinpic.com'
 /* 路径 */
 const pathOpt = getVal('path')
 /* network */
@@ -77,7 +77,7 @@ const prefix = getVal('prefix') || ' '
 const suffix = getVal('suffix') || ''
 /* 附加 Host 前缀 */
 const hostPrefix = getVal('hostPrefix') || 'name'
-const hostSuffix = getVal('hostSuffix') || '|头条|'
+const hostSuffix = getVal('hostSuffix') || '|抖音|'
 /* 附加 Path 前缀 */
 const pathPrefix = getVal('pathPrefix') || ''
 const pathSuffix = getVal('pathSuffix') || ''
