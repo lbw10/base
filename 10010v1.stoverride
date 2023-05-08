@@ -21,7 +21,7 @@ tiles:
     interval: 300
     title: "联通余量"
     content: ""
-    icon: "arrow.up.arrow.down.circle"
+    icon: "https://raw.githubusercontent.com/lbw10/base/main/icon/China_Unicom.png"
     backgroundColor: "#66CCFF"
     timeout: 60
     # debug: true
