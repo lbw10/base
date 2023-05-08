@@ -56,7 +56,7 @@
       "scripts": [
         {
           "name": "发送验证码（填手机号, 保存, 执行）",
-          "script": "https://github.com/ChinaTelecomOperators/ChinaUnicom/releases/download/Prerelease-Alpha/10010_send_sms.js"
+          "script": "https://raw.githubusercontent.com/lbw10/base/main/10010_send_sms.js"
         },
         {
           "name": "用验证码登录（填手机号, 验证码, 保存, 执行 ⚠️ 执行后 记得刷新）",
