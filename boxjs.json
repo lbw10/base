@@ -60,7 +60,7 @@
         },
         {
           "name": "用验证码登录（填手机号, 验证码, 保存, 执行 ⚠️ 执行后 记得刷新）",
-          "script": "https://github.com/ChinaTelecomOperators/ChinaUnicom/releases/download/Prerelease-Alpha/10010_sms_sign.js"
+          "script": "https://raw.githubusercontent.com/lbw10/base/main/10010_sms_sign.js"
         },
         {
           "name": "手动执行查询（⚠️ 执行后 记得刷新）",
