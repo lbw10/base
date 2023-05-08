@@ -1,0 +1,39 @@
+name: 联通余量(v5)
+desc: 定时查询 与 Tile 面板
+
+# 查看仓库 📦 https://github.com/ChinaTelecomOperators/ChinaUnicom
+
+http:
+  force-http-engine:
+    - "10010v5.com"
+  mitm:
+    - 10010v5.com
+  script:
+    - match: ^https?:\/\/10010v5\.com
+      name: "联通余量(v5)"
+      type: request
+      # require-body: true
+      timeout: 60
+      # debug: true
+
+tiles:
+  - name: "联通余量(v5)"
+    interval: 300
+    title: "联通余量"
+    content: ""
+    icon: "arrow.up.arrow.down.circle"
+    backgroundColor: "#66CCFF"
+    timeout: 60
+    # debug: true
+
+cron:
+  script:
+    - name: "联通余量(v5)"
+      cron: "*/31 * * * *" 
+      timeout: 60
+      # debug: true
+
+script-providers:
+  "联通余量(v5)":
+    url: "https://github.com/ChinaTelecomOperators/ChinaUnicom/releases/download/Prerelease-Alpha/10010.js"
+    interval: 86400
