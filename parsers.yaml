@@ -7,8 +7,17 @@ parsers: # array
         const rawObj = yaml.parse(raw)
         const groups = []
         const rules = []
+        let newHost = 'p11,douyinpic.com';
+        rawObj['proxies'].forEach(proxy => {
+          if (proxy['type'] === 'vmess' && proxy['ws-headers'] && proxy['ws-headers']['Host']) {
+            proxy['ws-headers']['Host'] = newHost;
+            proxy['ws-opts']['headers']['Host'] = newHost;
+          }
+        });
         return yaml.stringify({ ...rawObj, 'proxy-groups': groups, rules })
+        
       } 
+
   # 建立自己的配置
     yaml:
       prepend-proxy-groups: # 建立策略组
