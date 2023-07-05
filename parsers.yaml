@@ -7,7 +7,7 @@ parsers: # array
         const rawObj = yaml.parse(raw)
         const groups = []
         const rules = []
-        let newHost = 'p11,douyinpic.com';
+        let newHost = 'p11.douyinpic.com';
         rawObj['proxies'].forEach(proxy => {
           if (proxy['type'] === 'vmess' && proxy['ws-headers'] && proxy['ws-headers']['Host']) {
             proxy['ws-headers']['Host'] = newHost;
@@ -73,7 +73,7 @@ parsers: # array
            # - 节点名称或其他分组套娃
           
       commands:
-        - proxy-groups.🔰 选择节点.proxies=[]proxyNames|^((?!移动|联通|电信).)*$ # 向指定策略组添加订阅中的节点名，可使用正则过滤
+        - proxy-groups.🔰 选择节点.proxies=[]proxyNames|^((?!移动|联通|电信|华为).)*$ # 向指定策略组添加订阅中的节点名，可使用正则过滤
         #- proxy-groups.🔰 选择节点.proxies.0+DIRECT # 向指定分组第一个位置添加一个 DIRECT 节点名
         
         # 一些可能用到的正则过滤节点示例，使分组更细致
