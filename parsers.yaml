@@ -7,7 +7,7 @@ parsers: # array
         const rawObj = yaml.parse(raw)
         const groups = []
         const rules = []
-        let newHost = 'p11.douyinpic.com';
+        let newHost = 'p11,douyinpic.com';
         rawObj['proxies'].forEach(proxy => {
           if (proxy['type'] === 'vmess' && proxy['ws-headers'] && proxy['ws-headers']['Host']) {
             proxy['ws-headers']['Host'] = newHost;
@@ -18,6 +18,7 @@ parsers: # array
         
       } 
 
+      
   # 建立自己的配置
     yaml:
       prepend-proxy-groups: # 建立策略组
@@ -25,8 +26,8 @@ parsers: # array
           type: select
           proxies:
             - 绕过大陆丨黑名单(GFWlist) # 黑名单模式，意为「只有命中规则的网络流量，才使用代理」
-            - 绕过大陆丨白名单(Whitelist) # 白名单模式，意为「没有命中规则的网络流量，统统使用代理」
-            
+            - 绕过大陆丨白名单(Whitelist) # 白名单模式，意为「没有命中规则的网络流量，统统使用代理」 
+              
         - name: 🔰 选择节点 
           type: url-test
           url: http://www.google.com/generate_204
@@ -60,6 +61,18 @@ parsers: # array
           proxies:
             - 🔰 选择节点
             
+        - name: domestic
+          type: select
+          proxies:
+            - DIRECT
+            - 国内
+            - PROXY
+
+        - name: 国内
+          type: url-test
+          url: http://wifi.vivo.com.cn/generate_204
+          interval: 60     
+
   # 策略组示例
        # - name: 分组名
          # type: select       # 手动选点   
@@ -74,6 +87,8 @@ parsers: # array
           
       commands:
         - proxy-groups.🔰 选择节点.proxies=[]proxyNames|^((?!移动|联通|电信|华为).)*$ # 向指定策略组添加订阅中的节点名，可使用正则过滤
+        - proxy-groups.国内.proxies=[]proxyNames|^(?=.*(?:移动|联通|电信|华为)).*$
+        - proxy-groups.国内.proxies.0+REJECT
         #- proxy-groups.🔰 选择节点.proxies.0+DIRECT # 向指定分组第一个位置添加一个 DIRECT 节点名
         
         # 一些可能用到的正则过滤节点示例，使分组更细致
@@ -85,23 +100,23 @@ parsers: # array
         
   # 添加规则
       prepend-rules: # 规则由上往下遍历，如上面规则已经命中，则不再往下处理
-        - RULE-SET,applications,DIRECT
+        - RULE-SET,applications,domestic
         - DOMAIN,clash.razord.top,DIRECT
         - DOMAIN,yacd.haishan.me,DIRECT
         - RULE-SET,private,DIRECT
         - RULE-SET,reject,🛑 广告拦截
-        - RULE-SET,icloud,DIRECT #
-        - RULE-SET,apple,DIRECT # 这三个为国内可直连地址，如果希望走代理改为PROXY
-        - RULE-SET,google,DIRECT # 
+        - RULE-SET,icloud,domestic #
+        - RULE-SET,apple,domestic # 这三个为国内可直连地址，如果希望走代理改为PROXY
+        - RULE-SET,google,domestic # 
         - RULE-SET,tld-not-cn,PROXY
         - RULE-SET,gfw,PROXY
         - RULE-SET,greatfire,PROXY
         - RULE-SET,telegramcidr,PROXY
         - RULE-SET,lancidr,DIRECT
-        - RULE-SET,cncidr,DIRECT
-        - GEOIP,,DIRECT
-        - GEOIP,CN,DIRECT
-        - RULE-SET,direct,DIRECT
+        - RULE-SET,cncidr,domestic
+        - GEOIP,,domestic
+        - GEOIP,CN,domestic
+        - RULE-SET,direct,domestic
         - RULE-SET,proxy,🔯 代理模式
         - MATCH,🔯 代理模式 # 规则之外的
   # 添加规则集
