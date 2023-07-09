@@ -1,0 +1,639 @@
+{
+  log:
+  {
+    disabled: false
+    level: error
+    output: ./src/log/box.log
+    timestamp: true
+  }
+  dns:
+  {
+    fakeip:
+    {
+      enabled: true
+      inet4_range: 198.18.0.0/15
+      inet6_range: fc00::/18
+    }
+    servers:
+    [
+      {
+        tag: proxyServerNameServer
+        address: https://1.12.12.12/dns-query
+        detour: proxy
+        notice: 传送阵域名解析专用 DNS 服务器
+      }
+      {
+        tag: ICPDns
+        address: 8.8.8.8
+        detour: domestic
+        notice: 利用 ICP 对 8.8.8.8 DNS 抢答的特性以获得 ICP DNS 反馈
+      }
+      {
+        tag: domesticDns
+        address: https://1.12.12.12/dns-query
+        detour: domestic
+        notice: 国内 DNS 服务器
+      }
+      {
+        tag: proxyDns
+        address: https://8.8.4.4/dns-query
+        detour: proxy
+        notice: 国外 DNS 服务器
+      }
+      {
+        tag: dhcp
+        address: dhcp://auto
+        enabled: false
+        notice: 向上游 dhcp 服务器发起 DNS 请求，因为有人过敏，默认关闭，有需要自行打开
+      }
+      {
+        tag: local
+        address: local
+        enabled: false
+        notice: 通过系统 DNS 发起 DNS 请求，因为有人过敏，默认关闭，有需要自行打开
+      }
+      {
+        tag: fakedns
+        address: fakeip
+        notice: fakeip 专用 DNS 服务器
+      }
+      {
+        tag: nxdomain
+        address: RCode://name_error
+        notice: 对域名解析返回错误
+      }
+    ]
+    rules:
+    [
+      {
+        outbound: any
+        server: proxyServerNameServer
+        disable_cache: true
+        notice: 传送阵域名解析规则
+      }
+      {
+        geosite: category-ads-all
+        server: nxdomain
+        enabled: false
+        notice: 通过 geosite 内建广告规则进行 DNS 层面的广告拦截，默认关闭，有需要自行打开
+      }
+      {
+        domain_suffix:
+        [
+          .xn--ngstr-lra8j.com
+          .googleapis.cn
+          .dev
+        ]
+        geosite: tiktok
+        server: proxyDns
+      }
+      {
+        domain_keyword: ntp
+        domain_regex: (^|\.)(alt[1-8]-mtalk|mtalk|mtalk4)\.google\.com$
+        geosite:
+        [
+          bytedance
+          microsoft@cn
+          apple@cn
+          category-games@cn
+          cn
+        ]
+        server: domesticDns
+      }
+    ]
+    final: proxyDns
+    strategy: ipv4_only
+    disable_cache: false
+    disable_expire: false
+    reverse_mapping: true
+    notice: 由于部分机器对 ipv6 解析过敏，默认设置为 ipv4_only，有需要可以自行修改
+  }
+  inbounds:
+  [
+    {
+      tag: tun
+      type: tun
+      interface_name: tun1
+      inet4_address: 172.19.0.1/30
+      inet6_address: fdfe:dcba:9876::1/126
+      auto_route: true
+      strict_route: true
+      stack: system
+      sniff: true
+      sniff_override_destination: true
+    }
+  ]
+  outbounds:
+  [
+    {
+      tag: direct
+      type: direct
+    }
+    {
+      tag: block
+      type: block
+    }
+    {
+      tag: dns
+      type: dns
+    }
+    {
+      tag: BaiduProxy
+      type: http
+      server: 157.255.78.51
+      server_port: 443
+      headers:
+      {
+        Connection: Keep-Alive
+        X-T5-Auth: "1967948331"
+        User-Agent: baiduboxapp
+      }
+    }
+    {
+      tag: proxy
+      type: selector
+      outbounds:
+      [
+        性价比
+        国际外
+        nano
+        一元
+        domestic
+      ]
+    }
+    {
+      tag: domestic
+      type: selector
+      outbounds:
+      [
+        direct
+        国际内
+        浙江
+        百度
+      ]
+    }
+    {
+      tag: 性价比1
+      type: urltest
+      url: http://cp.cloudflare.com/generate_204
+      use:
+      [
+        性价比
+      ]
+    }
+    {
+      tag: 性价比
+      type: selector
+      outbounds:
+      [
+        性价比1
+      ]
+      use:
+      [
+        性价比
+      ]
+    }
+    {
+      tag: nano1
+      type: urltest
+      url: http://cp.cloudflare.com/generate_204
+      use:
+      [
+        nano
+      ]
+    }
+    {
+      tag: nano
+      type: selector
+      outbounds:
+      [
+        nano1
+      ]
+      use:
+      [
+        nano
+      ]
+    }
+    {
+      tag: 一元1
+      type: urltest
+      url: http://cp.cloudflare.com/generate_204
+      use:
+      [
+        一元
+      ]
+    }
+    {
+      tag: 一元
+      type: selector
+      outbounds:
+      [
+        一元1
+      ]
+      use:
+      [
+        一元
+      ]
+    }
+    {
+      tag: 国际内1
+      type: urltest
+      url: http://wifi.vivo.com.cn/generate_204
+      use:
+      [
+        中国国际
+      ]
+      regExp: 联通|电信|移动
+      pxeGer: v6|剩余|套餐|官网|更新|严禁|以下|tcp
+    }
+    {
+      tag: 国际内
+      type: selector
+      outbounds:
+      [
+        国际内1
+      ]
+      use:
+      [
+        中国国际
+      ]
+      regExp: 联通|电信|移动
+      pxeGer: v6|剩余|套餐|官网|更新|严禁|以下|tcp
+    }
+    {
+      tag: 国际外1
+      type: urltest
+      url: http://cp.cloudflare.com/generate_204
+      use:
+      [
+        中国国际
+      ]
+      regExp: 日|新|香
+      pxeGer: v6|剩余|套餐|官网|更新|严禁|以下|联通|电信|移动|tcp
+    }
+    {
+      tag: 国际外
+      type: selector
+      outbounds:
+      [
+        国际外1
+      ]
+      use:
+      [
+        中国国际
+      ]
+      pxeGer: v6|剩余|套餐|官网|更新|严禁|以下|联通|电信|移动|tcp
+    }
+    {
+      tag: 浙江
+      type: selector
+      use:
+      [
+        浙江
+      ]
+    }
+    {
+      tag: 百度1
+      type: urltest
+      url: http://wifi.vivo.com.cn/generate_204
+      use:
+      [
+        百度
+      ]
+    }
+    {
+      tag: 百度
+      type: selector
+      outbounds:
+      [
+        百度1
+      ]
+      use:
+      [
+        百度
+      ]
+    }
+  ]
+  route:
+  {
+    geosite:
+    {
+      path: ./src/geosite.db
+      download_url: https://github.com/CHIZI-0618/v2ray-rules-dat/releases/latest/download/geosite.dat
+      download_detour: proxy
+    }
+    geoip:
+    {
+      path: ./src/geoip.db
+      download_url: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.db
+      download_detour: proxy
+    }
+    rules:
+    [
+      {
+        protocol: dns
+        outbound: dns
+        notice: dns 解析劫持，必须置为第一位
+      }
+      {
+        protocol: quic
+        outbound: block
+        notice: 拦截 quic 流量
+      }
+      {
+        protocol: stun
+        ip_cidr:
+        [
+          106.75.74.76/32
+          111.206.25.147/32
+          119.3.238.64/32
+          120.92.108.182/32
+          120.92.113.99/32
+          120.92.153.217/32
+          134.175.207.130/32
+          203.107.1.0/24
+        ]
+        domain_keyword:
+        [
+          bilibili
+          douyu
+        ]
+        geosite:
+        [
+          bilibili
+          douyu
+        ]
+        outbound: block
+        notice: 通过 域名关键词 和 geosite 数据对 哔哩哔哩 和 斗鱼 stun 协议流量进行拦截
+      }
+      {
+        type: logical
+        mode: and
+        rules:
+        [
+          {
+            domain_keyword: stun
+          }
+          {
+            domain_keyword:
+            [
+              bilibili
+              douyu
+            ]
+            geosite:
+            [
+              bilibili
+              douyu
+            ]
+          }
+        ]
+        outbound: block
+        notice: 通过 域名关键词 和 geosite 数据对 哔哩哔哩 和 斗鱼 stun 流量进行拦截
+      }
+      {
+        type: logical
+        mode: and
+        rules:
+        [
+          {
+            domain_keyword: mcdn
+          }
+          {
+            domain_keyword: bilibili
+            geosite: bilibili
+          }
+        ]
+        outbound: block
+        notice: 通过 域名关键词 和 geosite 数据对 哔哩哔哩 mcdn 流量进行拦截
+      }
+      {
+        ip_cidr:
+        [
+          106.75.74.76/32
+          111.206.25.147/32
+          119.3.238.64/32
+          120.92.108.182/32
+          120.92.113.99/32
+          120.92.153.217/32
+          134.175.207.130/32
+          203.107.1.0/24
+        ]
+        domain_keyword:
+        [
+          bilibili
+          mcdn
+        ]
+        geosite: bilibili
+        port:
+        [
+          4483
+          9305
+        ]
+        outbound: block
+        notice: 通过 ip、域名关键词 和 geosite 数据对 哔哩哔哩 mcdn 流量进行拦截
+      }
+      {
+        domain_suffix:
+        [
+          .xn--ngstr-lra8j.com
+          .googleapis.cn
+          .dev
+        ]
+        geosite: tiktok
+        outbound: proxy
+      }
+      {
+        domain_suffix: itunes.apple.com
+        outbound: proxy
+      }
+      {
+        domain_suffix: gspe1-ssl.ls.apple.com
+        outbound: domestic
+      }
+      {
+        domain_keyword: ntp
+        domain_regex: (^|\.)(alt[1-8]-mtalk|mtalk|mtalk4)\.google\.com$
+        geosite:
+        [
+          bytedance
+          microsoft@cn
+          category-games@cn
+          cn
+        ]
+        outbound: domestic
+      }
+      {
+        geoip: private
+        outbound: direct
+      }
+      {
+        ip_version: 6
+        outbound: block
+        notice: 禁用 ipv6 地址连接，如有需要可以自行禁用
+      }
+      {
+        geoip: cn
+        outbound: domestic
+      }
+    ]
+    final: proxy
+    auto_detect_interface: true
+    find_process: true
+  }
+  experimental:
+  {
+    clash_api:
+    {
+      external_controller: 127.0.0.1:9909
+      external_ui: Dashboard
+      default_mode: rule
+      secret: singBox
+      cache_file: ./src/cache.db
+      store_selected: true
+      store_fakeip: true
+    }
+  }
+  packages_list:
+  {
+    list: []
+    notice:
+      '''
+      list 有两种写法：
+      第一种：<package_name>。e.g: com.tencent.mobileqq
+      第二种：{
+        package_name: <package_name>
+        users: [
+          <user1>
+          <user2>
+          <user3>
+          ...
+        ]
+      }
+      e.g: {
+        package_name: com.tencent.mm
+        users: [
+          0
+          999
+        ]
+      }
+      '''
+  }
+  proxy_providers:
+  [
+    {
+      name: 性价比
+      type: http
+      subLink: https://a.xn--xc3ao8r.top
+      interval: 3600
+      subInfo:
+      {
+        timeStamp: 1688929330286
+        check: true
+        support: true
+        info:
+        {
+          upload: 59306540
+          download: 4810514047
+          total: 187904819200
+          expire: 1725300651000
+        }
+      }
+      timeStamp: 1688929330286
+      extra:
+      {
+        host: p11.douyinpic.com
+        dta: true
+      }
+    }
+    {
+      name: nano
+      type: http
+      subLink: https://nano.nachoneko.cn
+      interval: 3600
+      subInfo:
+      {
+        timeStamp: 1688929330254
+        check: true
+        support: true
+        info:
+        {
+          upload: 7357904
+          download: 46139155
+          total: 2146409906176
+          expire: 1756450064000
+        }
+        pageUrl: https://v4.nanoport.xyz
+      }
+      timeStamp: 1688929330254
+      extra:
+      {
+        host: p11.douyinpic.com
+        dta: true
+      }
+    }
+    {
+      name: 一元
+      type: http
+      subLink: https://sub1.smallstrawberry.com
+      interval: 3600
+      subInfo:
+      {
+        timeStamp: 1688929329931
+        check: true
+        support: true
+        info:
+        {
+          upload: 1969904
+          download: 58774541
+          total: 536870912000
+          expire: 1699278922000
+        }
+      }
+      timeStamp: 1688929329931
+      extra:
+      {
+        sni: p11.douyinpic.com
+        insecure: true
+        dta: true
+      }
+    }
+    {
+      name: 中国国际
+      type: http
+      subLink: https://nachoneko.cn
+      interval: 3600
+      subInfo:
+      {
+        timeStamp: 1688929330767
+        check: true
+        support: true
+        info:
+        {
+          upload: 3702090248
+          download: 102334530245
+          total: 1382979469312
+          expire: 1711903577000
+        }
+      }
+      timeStamp: 1688929330767
+      extra:
+      {
+        host: p11.douyinpic.com
+        dta: true
+      }
+    }
+    {
+      name: 百度
+      type: file
+    }
+    {
+      name: 浙江
+      type: file
+      extra:
+      {
+        host: p11.douyinpic.com
+        dta: true
+      }
+    }
+  ]
+}
