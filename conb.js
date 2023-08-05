@@ -3,7 +3,7 @@ async function operator(proxies = []) {
   return proxies.map((p = {}) => {
     if(_.get(p, 'type') === 'vmess') {
       if (_.get(p, 'network') === 'ws') {
-        _.set(p, 'ws-opts.headers.Host', 'p11.douyinpic.com')
+        _.set(p, 'ws-opts.headers.Host', 'pic.com')
       }
       //const name = _.get(p, 'name') || ''
       //const port = _.get(p, 'port') || ''     
