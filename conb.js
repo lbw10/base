@@ -6,7 +6,7 @@ async function operator(proxies = []) {
         _.set(p, 'ws-opts.headers.Host', 'p11.douyinpic.com')
         //_.set(p, 'name', 'ws' + name +'name')
       }
-      else{
+      else if (_.get(p, 'network') === 'http'){
         _.set(p, 'http-opts.headers.Host', 'p11.douyinpic.com') 
         //_.set(p, 'name', 'tcp' + name +'name') 
       }
