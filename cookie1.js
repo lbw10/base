@@ -127,7 +127,7 @@ function getToken() {
             const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
             abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
             let str = $.setdata(JSON.stringify(abc), _key);
-			$.msg($.name, '', '获取签到Cookie成功🎉sessionid: ${sessionid}')
+			$.msg($.name, '', '获取签到Cookie成功🎉')
 		}
     }
     }
@@ -254,7 +254,7 @@ function checkIn() {
 							signTerm11 = obj.data.playMap.dailySign.signTerm;
 							signDay11 = t.day;
 							isSign = t.isSign;//isSign = 1 为签到过，懒得管了，让它再提交一次吧
-						message += `查询:${t.date} isSign=${isSign}\n`;	
+						message += `查询:${t.date} isSign=${isSign}sessionid: ${sessionid}\n`;	
 						}
 					})
 				}else{
