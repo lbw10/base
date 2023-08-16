@@ -116,23 +116,36 @@ function getToken() {
         abc.adiu = obj.content.adiu
         abc.adcode = obj.content.adcode
         abc.bizVersion = obj.content.bizVersion
-		abc.Cookie = $request.headers['Cookie']
+		abc.Cookie = $request.headers['Cookie']//拼接
+        abc.cookie = $request.headers['cookie']//单一
 	    abc.sessionid = $request.headers['sessionid']
-        const cookieValue = abc.Cookie;
-        const sessionidIndex = cookieValue.indexOf('sessionid=');
-        if(abc.sessionid.length > 28 || abc.Cookie.indexOf('sessionid')!=-1){
-			let str = $.setdata(JSON.stringify(abc), _key)
-			$.msg($.name, '', '获取签到Cookie成功🎉')
-		}
-        else{
-        	const sessionidStart = sessionidIndex + 'sessionid='.length;
-        	const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
-        	abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
-        	let str = $.setdata(JSON.stringify(abc), _key);
-			$.msg($.name, '', '检查')
-        	}
 
-	}       
+        const cookieValue = abc.cookie;
+        const CookieValue = abc.Cookie;
+        if(CookieValue){
+            const sessionidIndex = CookieValue.indexOf('sessionid=');
+        if(sessionidIndex !== -1){
+        	const sessionidStart = sessionidIndex + 'sessionid='.length;
+        	const sessionidEnd = CookieValue.indexOf(';', sessionidStart);
+        	abc.sessionid = sessionidEnd !== -1 ? CookieValue.slice(sessionidStart, sessionidEnd) : CookieValue.slice(sessionidStart);
+        	let str = $.setdata(JSON.stringify(abc), _key);
+			$.msg($.name, '', 'appcookie提取成功')
+        	}
+        }
+        else if(cookieValue){
+            const sessionidIndex = cookieValue.indexOf('sessionid=');
+            if (sessionidIndex !== -1) {
+                const sessionidStart = sessionidIndex + 'sessionid='.length;
+                const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
+                const sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
+                let str = $.setdata(JSON.stringify(abc), _key);
+			    $.msg($.name, '', 'xcxcookie提取成功')
+            }   
+
+
+	    }  
+    }
+         
 }
 
 function getKey() {
