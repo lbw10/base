@@ -118,7 +118,8 @@ function getToken() {
         abc.bizVersion = obj.content.bizVersion
 		abc.Cookie = $request.headers['Cookie']
         const cookieValue = abc.Cookie;
-
+        abc.sessionid = $request.headers['sessionid']
+        if(sessionid.length === 0){
         // 在 Cookie 值中查找 sessionid 的键值对
         const sessionidIndex = cookieValue.indexOf('sessionid=');
         if (sessionidIndex !== -1) {
@@ -126,8 +127,9 @@ function getToken() {
             const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
             abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
             let str = $.setdata(JSON.stringify(abc), _key);
-			$.msg($.name, '', '获取签到Cookie成功🎉')
+			$.msg($.name, '', '获取签到Cookie成功🎉sessionid: ${sessionid}')
 		}
+    }
     }
 }
 
@@ -252,7 +254,7 @@ function checkIn() {
 							signTerm11 = obj.data.playMap.dailySign.signTerm;
 							signDay11 = t.day;
 							isSign = t.isSign;//isSign = 1 为签到过，懒得管了，让它再提交一次吧
-						message += `查询:${t.date} Cookie: ${Cookie}，sessionid: ${sessionid}\n`;	
+						message += `查询:${t.date} isSign=${isSign}\n`;	
 						}
 					})
 				}else{
@@ -282,7 +284,7 @@ function signIn() {
 				//console.log(data)
 				var obj = JSON.parse(data);
 				if(obj?.code == '1'){
-					message += `签到:签到成功，Cookie: ${Cookie}，sessionid: ${sessionid}\n`;
+					message += `签到:签到成功\n`;
 				}else{
 					message += `签到:${obj?.message}\n`;
 				}
