@@ -127,7 +127,7 @@ function getToken() {
 			$.msg($.name, '', '获取签到Cookie成功🎉')
         }
         else{
-            $.msg($.name, `${sessionid}`, '获取签到Cookie成功🎉')
+            $.msg($.name, `${sessionid}`, `${sessionid}`)
         }
 		}       
     }
