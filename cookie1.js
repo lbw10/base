@@ -128,10 +128,15 @@ function getToken() {
             const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
             abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
             let str = $.setdata(JSON.stringify(abc), _key);
-			$.msg($.name, '', '获取签到Cookie成功🎉')
-		}
+            $.msg($.name, '', '获取签到Cookie成功🎉')
+        }
+        }
+        else{
+            let str = $.setdata(JSON.stringify(abc), _key);
+			$.msg($.name, '', '获取签到Cookie成功🎉')}
+		
     }
-    }
+    
 }
 
 function getKey() {
