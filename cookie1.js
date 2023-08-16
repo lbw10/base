@@ -117,9 +117,15 @@ function getToken() {
         abc.adcode = obj.content.adcode
         abc.bizVersion = obj.content.bizVersion
 		abc.Cookie = $request.headers['Cookie']
-		abc.sessionid = $request.headers['sessionid']
-		if(abc.sessionid.length > 28 || abc.Cookie.indexOf('sessionid')!=-1){
-			let str = $.setdata(JSON.stringify(abc), _key)
+        const cookieValue = abc.Cookie;
+
+        // 在 Cookie 值中查找 sessionid 的键值对
+        const sessionidIndex = cookieValue.indexOf('sessionid=');
+        if (sessionidIndex !== -1) {
+            const sessionidStart = sessionidIndex + 'sessionid='.length;
+            const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
+            abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
+            let str = $.setdata(JSON.stringify(abc), _key);
 			$.msg($.name, '', '获取签到Cookie成功🎉')
 		}
     }
