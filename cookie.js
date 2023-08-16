@@ -117,22 +117,22 @@ function getToken() {
         abc.adcode = obj.content.adcode
         abc.bizVersion = obj.content.bizVersion
 		abc.Cookie = $request.headers['Cookie']
-        const cookieValue = abc.Cookie;
-        const sessionidIndex = cookieValue.indexOf('sessionid=');
-        if (sessionidIndex !== -1) {
-            const sessionidStart = sessionidIndex + 'sessionid='.length;
-            const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
-            abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
-            let str = $.setdata(JSON.stringify(abc), _key);
+	    	abc.sessionid = $request.headers['sessionid']
+        	const cookieValue = abc.Cookie;
+        	const sessionidIndex = cookieValue.indexOf('sessionid=');
+        	if (sessionidIndex !== -1) {
+            		const sessionidStart = sessionidIndex + 'sessionid='.length;
+            		const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
+            		abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
+            		let str = $.setdata(JSON.stringify(abc), _key);
 			$.msg($.name, '', '获取签到Cookie成功🎉')
-        }
-        else{
-            abc.sessionid = $request.headers['sessionid']
-            let str = $.setdata(JSON.stringify(abc), _key);
+        	}
+        	else{
+            		let str = $.setdata(JSON.stringify(abc), _key);
 			$.msg($.name, '', '检查日志')
-        }
-		}       
-    }
+        	}
+	}       
+}
 
 function getKey() {
     for (var t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678', n = t.length, r = "", i = 0; i < 16; i++)
