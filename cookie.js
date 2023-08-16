@@ -119,7 +119,8 @@ function getToken() {
 		abc.Cookie = $request.headers['Cookie']
         const cookieValue = abc.Cookie;
         abc.sessionid = $request.headers['sessionid']
-        if(sessionid.length === 0){
+        const sessionidl = abc.sessionid;
+        if(sessionidl.length < 28){
         // 在 Cookie 值中查找 sessionid 的键值对
         const sessionidIndex = cookieValue.indexOf('sessionid=');
         if (sessionidIndex !== -1) {
