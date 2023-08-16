@@ -118,13 +118,6 @@ function getToken() {
         abc.bizVersion = obj.content.bizVersion
 		abc.Cookie = $request.headers['Cookie']
         const cookieValue = abc.Cookie;
-        abc.sessionid = $request.headers['sessionid']
-        if(abc.sessionid.length > 28){
-			let str = $.setdata(JSON.stringify(abc), _key)
-			$.msg($.name, '', '获取签到Cookie成功🎉')
-		}
-        // 在 Cookie 值中查找 sessionid 的键值对
-        else{
         const sessionidIndex = cookieValue.indexOf('sessionid=');
         if (sessionidIndex !== -1) {
             const sessionidStart = sessionidIndex + 'sessionid='.length;
@@ -132,10 +125,13 @@ function getToken() {
             abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
             let str = $.setdata(JSON.stringify(abc), _key);
 			$.msg($.name, '', '获取签到Cookie成功🎉')
-        }   
+        }
+        else{
+            $.msg($.name, '', sessionid)
+        }
 		}       
     }
-}
+
 function getKey() {
     for (var t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678', n = t.length, r = "", i = 0; i < 16; i++)
         r += t.charAt(Math.floor(Math.random() * n));
