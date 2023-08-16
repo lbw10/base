@@ -119,7 +119,7 @@ function getToken() {
 		abc.Cookie = $request.headers['Cookie']
         const cookieValue = abc.Cookie;
         abc.sessionid = $request.headers['sessionid']
-        if(abc.sessionid.length > 28 || abc.Cookie.indexOf('sessionid')!=-1){
+        if(abc.sessionid.length > 28){
 			let str = $.setdata(JSON.stringify(abc), _key)
 			$.msg($.name, '', '获取签到Cookie成功🎉')
 		}
