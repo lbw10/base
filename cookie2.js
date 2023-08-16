@@ -119,26 +119,23 @@ function getToken() {
 		abc.Cookie = $request.headers['Cookie']
         const cookieValue = abc.Cookie;
         abc.sessionid = $request.headers['sessionid']
-        const sessionidl = abc.sessionid;
-        if(sessionidl.length < 28){
+        if(abc.sessionid.length > 28 || abc.Cookie.indexOf('sessionid')!=-1){
+			let str = $.setdata(JSON.stringify(abc), _key)
+			$.msg($.name, '', '获取签到Cookie成功🎉')
+		}
         // 在 Cookie 值中查找 sessionid 的键值对
+        else{
         const sessionidIndex = cookieValue.indexOf('sessionid=');
         if (sessionidIndex !== -1) {
             const sessionidStart = sessionidIndex + 'sessionid='.length;
             const sessionidEnd = cookieValue.indexOf(';', sessionidStart);
             abc.sessionid = sessionidEnd !== -1 ? cookieValue.slice(sessionidStart, sessionidEnd) : cookieValue.slice(sessionidStart);
             let str = $.setdata(JSON.stringify(abc), _key);
-            $.msg($.name, '', '获取签到Cookie成功🎉')
-        }
-        }
-        else{
-            let str = $.setdata(JSON.stringify(abc), _key);
-			$.msg($.name, '', '获取签到Cookie成功🎉')}
-		
+			$.msg($.name, '', '获取签到Cookie成功🎉')
+        }   
+		}       
     }
-    
 }
-
 function getKey() {
     for (var t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678', n = t.length, r = "", i = 0; i < 16; i++)
         r += t.charAt(Math.floor(Math.random() * n));
