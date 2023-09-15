@@ -1,5 +1,5 @@
 [rewrite_local]
-^https?:\/\/notability\.com\/(global|subscriptions) url script-response-body https://raw.githubusercontent.com/chxm1023/Rewrite/main/notability.js
+^https?:\/\/notability\.com\/(global|subscriptions) url script-response-body https://raw.githubusercontent.com/lbw10/base/main/loon%20plugin/nota.js
 
 [mitm]
 hostname = notability.com
