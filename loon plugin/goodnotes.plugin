@@ -1,0 +1,13 @@
+#!name=gg
+#!desc=gg
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1032.png
+
+[Script]
+
+http-response ^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) script-path=https://raw.githubusercontent.com/lbw10/base/main/loon%20plugin/goodn.js, requires-body=true, timeout=60 ,tag=gg_6
+
+http-request ^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) script-path=https://raw.githubusercontent.com/lbw10/base/main/loon%20plugin/goodn.js, timeout=60 ,tag=gg_7
+
+[MITM]
+
+hostname = isi.*.g*.com
