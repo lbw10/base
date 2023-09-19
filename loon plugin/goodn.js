@@ -1,3 +1,5 @@
+/*************************************
+
 [rewrite_local]
 ^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) url script-response-body https://raw.githubusercontent.com/lbw10/base/main/loon%20plugin/goodn.js
 ^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) url script-request-header https://raw.githubusercontent.com/lbw10/base/main/loon%20plugin/goodn.js
