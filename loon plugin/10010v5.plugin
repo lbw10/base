@@ -1,0 +1,13 @@
+#!name=联通余量v5
+#!desc=https://t.me/zhetengsha_group
+#!author=ChinaUnicomDev
+#!homepage=https://github.com/ChinaTelecomOperators/ChinaUnicom
+#!openurl=https://boxjs.net/#/app/ChinaUnicom.10010v5
+#!icon=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png
+
+[Script]
+cron "0 0 0 ? * ?" script-path=https://raw.githubusercontent.com/lbw10/base/main/10010.js
+http-request ^https?:\/\/10010v4\.com script-path=https://raw.githubusercontent.com/lbw10/base/main/10010.js, tag=10010v5
+
+[MITM]
+hostname = 10010v5.com
