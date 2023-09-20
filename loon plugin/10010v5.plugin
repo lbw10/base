@@ -7,7 +7,7 @@
 
 [Script]
 cron "0 0 0 ? * ?" script-path=https://raw.githubusercontent.com/lbw10/base/main/10010.js
-http-request ^https?:\/\/10010v4\.com script-path=https://raw.githubusercontent.com/lbw10/base/main/10010.js, tag=10010v5
+http-request ^https?:\/\/10010v5\.com script-path=https://raw.githubusercontent.com/lbw10/base/main/10010.js, tag=10010v5
 
 [MITM]
 hostname = 10010v5.com
